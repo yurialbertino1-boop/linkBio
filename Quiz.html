@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Quiz – Descubra Seu Perfil</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  background: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+  background: #111;
+  padding: 30px;
+  border-radius: 15px;
+  border: 2px solid #c3a542;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #c3a542;
+}
+
+.quiz-question {
+  margin-bottom: 25px;
+}
+
+.quiz-question h3 {
+  color: #c3a542;
+}
+
+.quiz-option {
+  display: block;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #c3a542;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.quiz-option:hover {
+  background: #c3a542;
+  color: #000;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background: #c3a542;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Quiz de Transformação</h1>
+<p style="text-align:center; margin-top:-10px;">
+Responda para descobrir o seu próximo passo ideal.
+</p>
+
+<form id="quiz-form">
+
+  <div class="quiz-question">
+    <h3>1. Como você se sente hoje em relação ao dinheiro?</h3>
+    <label class="quiz-option"><input type="radio" name="q1" value="quente"> Tenho urgência em mudar isso agora</label>
+    <label class="quiz-option"><input type="radio" name="q1" value="frio"> Sinto que preciso melhorar, mas sem pressa</label>
+  </div>
+
+  <div class="quiz-question">
+    <h3>2. Como está seu nível de ação atualmente?</h3>
+    <label class="quiz-option"><input type="radio" name="q2" value="quente"> Já tentei sozinho(a) e quero acelerar os resultados</label>
+    <label class="quiz-option"><input type="radio" name="q2" value="frio"> Ainda estou entendendo meu momento</label>
+  </div>
+
+  <div class="quiz-question">
+    <h3>3. O que você mais deseja agora?</h3>
+    <label class="quiz-option"><input type="radio" name="q3" value="quente"> Transformação rápida e orientação direta</label>
+    <label class="quiz-option"><input type="radio" name="q3" value="frio"> Algo simples para começar aos poucos</label>
+  </div>
+
+  <button type="button" id="submit-btn">VER RESULTADO</button>
+
+</form>
+
+</div>
+
+<script>
+document.getElementById("submit-btn").addEventListener("click", function() {
+  
+  const form = document.getElementById("quiz-form");
+
+  const q1 = form.q1.value;
+  const q2 = form.q2.value;
+  const q3 = form.q3.value;
+
+  if (!q1 || !q2 || !q3) {
+    alert("Por favor, responda todas as perguntas.");
+    return;
+  }
+
+  let quenteCount = 0;
+
+  if (q1 === "quente") quenteCount++;
+  if (q2 === "quente") quenteCount++;
+  if (q3 === "quente") quenteCount++;
+
+  if (quenteCount >= 2) {
+    window.location.href = "https://pay.kiwify.com.br/rGTr9zn?afid=RttijRpp";
+  } else {
+    window.location.href = "(link gratuito aqui)";
+  }
+
+});
+</script>
+
+</body>
+</html>

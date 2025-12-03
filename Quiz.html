@@ -1,136 +1,704 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Quiz – Descubra Seu Perfil</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+<title>Quiz - Mapa da Mente Próspera | Descubra seu Próximo Passo</title>
+<meta name="description" content="Quiz rápido para qualificar lead e direcionar para o próximo passo: material gratuito ou checkout com desconto." />
+<meta property="og:title" content="Quiz - Mente Próspera" />
+<meta property="og:description" content="3 minutos para descobrir se você está pronto para a transformação. Resultado: Material gratuito ou Checkout com desconto." />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-body {
-  background: #000;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  padding: 20px;
+/* =======================
+   Mobile-first base
+   ======================= */
+:root{
+  --bg: #0a0a0a;
+  --card: #0f0f0f;
+  --gold: #D4AF37;
+  --gold-dark: #CBA135;
+  --muted: #a8a8a8;
+  --white: #f5f5f5;
+  --radius: 14px;
+  --max-width: 420px;
+  --shadow: 0 8px 24px rgba(0,0,0,0.6);
 }
 
-.container {
-  max-width: 700px;
-  margin: auto;
-  background: #111;
-  padding: 30px;
-  border-radius: 15px;
-  border: 2px solid #c3a542;
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:linear-gradient(180deg,var(--bg),#050505);
+  color:var(--white);
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
-h1, h2 {
-  text-align: center;
-  color: #c3a542;
+/* Container */
+.app{
+  width:100%;
+  max-width:var(--max-width);
+  margin:0 auto;
 }
 
-.quiz-question {
-  margin-bottom: 25px;
+/* Card */
+.card{
+  background:linear-gradient(180deg,var(--card),#0b0b0b);
+  border-radius:var(--radius);
+  padding:18px;
+  border:2px solid rgba(212,175,55,0.12);
+  box-shadow:var(--shadow);
+  overflow:hidden;
 }
 
-.quiz-question h3 {
-  color: #c3a542;
+/* Header */
+.header{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:8px;
+}
+.logo {
+  width:56px; height:56px; border-radius:10px;
+  background: linear-gradient(180deg,var(--gold-dark),var(--gold));
+  display:flex; align-items:center; justify-content:center;
+  color:#0b0b0b; font-weight:700; font-family:'EB Garamond';
+  font-size:18px;
+}
+.h-title{
+  font-family:'EB Garamond', serif;
+  font-size:16px;
+  line-height:1.05;
+  color:var(--gold);
+}
+.h-sub{
+  font-size:12px; color:var(--muted);
 }
 
-.quiz-option {
-  display: block;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid #c3a542;
-  border-radius: 8px;
-  cursor: pointer;
+/* Progress */
+.progress-wrap{
+  margin:12px 0 18px;
+}
+.progress{
+  background:rgba(255,255,255,0.04);
+  height:8px; border-radius:8px; overflow:hidden;
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--gold-dark),var(--gold));
+  transition:width .45s cubic-bezier(.2,.9,.3,1);
+  border-radius:8px;
+}
+.progress-info{
+  display:flex; justify-content:space-between; margin-top:8px; font-size:12px; color:var(--muted);
 }
 
-.quiz-option:hover {
-  background: #c3a542;
-  color: #000;
+/* Step content */
+.step{
+  min-height:220px;
+  display:none;
+  animation:fadeIn .45s ease both;
+}
+.step.active{ display:block; }
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(6px)}
+  to{opacity:1; transform:translateY(0)}
 }
 
-button {
-  width: 100%;
-  padding: 15px;
-  background: #c3a542;
-  border: none;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 10px;
-  margin-top: 20px;
+/* Question */
+.q-title{
+  font-family:'EB Garamond', serif;
+  color:var(--gold);
+  font-size:18px;
+  margin-bottom:12px;
+}
+.options{ display:flex; flex-direction:column; gap:10px; }
+.opt-btn{
+  background:transparent;
+  border:1px solid rgba(212,175,55,0.18);
+  padding:14px;
+  border-radius:12px;
+  font-size:15px;
+  text-align:left;
+  cursor:pointer;
+  color:var(--white);
+  transition:transform .15s ease, background .15s ease, color .15s;
+  outline:none;
+}
+.opt-btn:hover{ transform:translateY(-4px); }
+.opt-btn:active{ transform:translateY(-1px); }
+.opt-btn.selected{
+  background:linear-gradient(180deg, rgba(212,175,55,0.12), rgba(212,175,55,0.04));
+  border:1px solid rgba(212,175,55,0.45);
+  color:#fff;
+  box-shadow:0 10px 30px rgba(203,161,53,0.06);
 }
 
-button:hover {
-  opacity: 0.85;
+/* Footer nav */
+.nav{
+  display:flex; gap:10px; margin-top:18px;
+}
+.btn{
+  flex:1;
+  padding:13px;
+  border-radius:12px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+  font-size:15px;
+}
+.btn-ghost{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.06);
+  color:var(--muted);
+}
+.btn-primary{
+  background:linear-gradient(90deg,var(--gold-dark),var(--gold));
+  color:#070707;
+  box-shadow:0 8px 24px rgba(212,175,55,0.08);
 }
 
+/* Small helpers */
+.hint{ font-size:13px; color:var(--muted); margin-top:8px; }
+.center{ text-align:center; }
+
+/* Result */
+.result{
+  display:none;
+  text-align:center;
+}
+.result.active{ display:block; }
+.profile-badge{
+  display:inline-block;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(212,175,55,0.12);
+  color:var(--gold);
+  font-weight:700;
+  margin-bottom:12px;
+  border:1px solid rgba(212,175,55,0.18);
+  font-family:'EB Garamond';
+}
+.result-title{ font-family:'EB Garamond'; font-size:20px; color:var(--gold); margin-bottom:8px; }
+.result-copy{ color:var(--muted); font-size:14px; margin-bottom:14px; }
+
+/* CTA area */
+.cta-area{ display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+.cta-main{
+  display:flex; align-items:center; justify-content:space-between;
+  background:linear-gradient(90deg,var(--gold-dark),var(--gold));
+  color:#070707; padding:12px;
+  border-radius:12px; font-weight:700; text-decoration:none;
+}
+.cta-secondary{
+  border:1px solid rgba(255,255,255,0.06);
+  background:transparent;
+  color:var(--white);
+  padding:12px; border-radius:12px; text-decoration:none; display:block; text-align:center;
+}
+
+/* Timer */
+.timer{
+  font-weight:700; font-size:13px; color:#070707;
+}
+
+/* GDPR */
+.gdpr { margin-top:10px; display:flex; gap:8px; align-items:center; font-size:12px; color:var(--muted); }
+.checkbox{ width:18px; height:18px; border-radius:4px; border:1px solid rgba(255,255,255,0.08); background:transparent; display:inline-block; vertical-align:middle; }
+.checkbox.checked{ background:var(--gold); border-color:var(--gold); }
+
+/* Tiny proof */
+.proof{ font-size:12px; color:var(--muted); margin-top:10px; }
+
+/* Accessibility focus */
+.opt-btn:focus, .btn:focus, .cta-main:focus, .cta-secondary:focus{ outline:3px solid rgba(212,175,55,0.18); outline-offset:3px; }
+
+/* Responsive tweaks (but mobile-first) */
+@media(min-width: 600px){
+  .card{ padding:28px }
+  .h-title{ font-size:18px }
+}
+
+/* End */
 </style>
 </head>
-
 <body>
+<div class="app" role="main">
+  <div class="card" aria-live="polite">
+    <div class="header">
+      <div class="logo" aria-hidden="true">MP</div>
+      <div>
+        <div class="h-title">Quiz Rápido — Mente Próspera</div>
+        <div class="h-sub">3 minutos · 4 perguntas · Resultado prático</div>
+      </div>
+    </div>
 
-<div class="container">
+    <div class="progress-wrap" aria-hidden="true">
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="progress-info">
+        <div id="prog-text">Pergunta 1 de 4</div>
+        <div id="prog-time" class="hint">Quase lá — 2 minutos</div>
+      </div>
+    </div>
 
-<h1>Quiz de Transformação</h1>
-<p style="text-align:center; margin-top:-10px;">
-Responda para descobrir o seu próximo passo ideal.
-</p>
+    <!-- STEP 1 -->
+    <div class="step active" id="step-1" data-step="1" aria-hidden="false">
+      <div class="q-title">1. Qual é seu nível de urgência para mudar sua relação com a mente e prosperidade?</div>
+      <div class="options" role="list" aria-label="Opções pergunta 1">
+        <button class="opt-btn" data-val="quente" aria-pressed="false">Quero mudança agora — estou pronto(a) para agir</button>
+        <button class="opt-btn" data-val="frio" aria-pressed="false">Quero entender melhor antes de decidir</button>
+      </div>
+      <div class="hint">Escolha a opção que mais combina com seu estado hoje — honestidade gera melhor resultado.</div>
+    </div>
 
-<form id="quiz-form">
+    <!-- STEP 2 -->
+    <div class="step" id="step-2" data-step="2" aria-hidden="true">
+      <div class="q-title">2. Você já tentou outros métodos sozinho(a)?</div>
+      <div class="options" role="list" aria-label="Opções pergunta 2">
+        <button class="opt-btn" data-val="quente" aria-pressed="false">Sim — tentei e quero acelerar com orientação</button>
+        <button class="opt-btn" data-val="frio" aria-pressed="false">Não — ainda estou no começo</button>
+      </div>
+      <div class="hint">Se já tentou e não obteve resultado, isso não é fracasso — é sinal de que precisa do mapa certo.</div>
+    </div>
 
-  <div class="quiz-question">
-    <h3>1. Como você se sente hoje em relação ao dinheiro?</h3>
-    <label class="quiz-option"><input type="radio" name="q1" value="quente"> Tenho urgência em mudar isso agora</label>
-    <label class="quiz-option"><input type="radio" name="q1" value="frio"> Sinto que preciso melhorar, mas sem pressa</label>
+    <!-- STEP 3 -->
+    <div class="step" id="step-3" data-step="3" aria-hidden="true">
+      <div class="q-title">3. Quanto tempo você dedicaria diariamente para essa transformação?</div>
+      <div class="options" role="list" aria-label="Opções pergunta 3">
+        <button class="opt-btn" data-val="quente" aria-pressed="false">15–45 minutos — eu me comprometo</button>
+        <button class="opt-btn" data-val="frio" aria-pressed="false">0–15 minutos — prefiro hábitos leves</button>
+      </div>
+      <div class="hint">Consistência pequena e diária vence talento sem direção.</div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step" id="step-4" data-step="4" aria-hidden="true">
+      <div class="q-title">4. Qual resultado você espera nos próximos 30 dias?</div>
+      <div class="options" role="list" aria-label="Opções pergunta 4">
+        <button class="opt-btn" data-val="quente" aria-pressed="false">Progresso tangível com orientação</button>
+        <button class="opt-btn" data-val="frio" aria-pressed="false">Experimentar e sentir mudança inicial</button>
+      </div>
+      <div class="hint">Pense no que será diferente em 30 dias — escolha a opção que quer realmente alcançar.</div>
+    </div>
+
+    <!-- NAV -->
+    <div class="nav" aria-hidden="false">
+      <button class="btn btn-ghost" id="prev-btn" aria-label="Anterior" disabled>Anterior</button>
+      <button class="btn btn-primary" id="next-btn" aria-label="Próxima pergunta">Próximo</button>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result" id="result-panel" role="region" aria-live="polite" aria-hidden="true">
+      <div class="profile-badge" id="profile-badge">RESULTADO</div>
+      <div class="result-title" id="result-title">Carregando...</div>
+      <div class="result-copy" id="result-copy"></div>
+
+      <div class="cta-area" id="cta-area" aria-hidden="false">
+        <!-- Main CTA (checkout) -->
+        <a href="#" id="checkout-cta" class="cta-main" role="button" aria-label="Ir para checkout com desconto">
+          <div>
+            <div style="font-size:13px; opacity:0.9">Desconto Exclusivo</div>
+            <div style="font-size:15px; font-weight:800">Finalizar agora — garantir desconto</div>
+          </div>
+          <div class="timer" id="discount-timer">20:00</div>
+        </a>
+
+        <!-- Secondary CTA (free) -->
+        <a href="#" id="free-cta" class="cta-secondary" role="button" aria-label="Baixar material gratuito">Quero o material gratuito</a>
+
+        <div class="gdpr" id="gdpr-wrap" style="display:none;">
+          <label style="display:flex; gap:8px; align-items:center; cursor:pointer;">
+            <input type="checkbox" id="gdpr-checkbox" aria-label="Aceito receber comunicações" />
+            <span style="color:var(--muted); font-size:12px;">Aceito receber conteúdo gratuito e ofertas — li a <a href="#" style="color:var(--gold); text-decoration:underline;">política</a>.</span>
+          </label>
+        </div>
+
+        <div class="proof" id="proof-snippet">+2.400 alunos impactados · Resultados reais em 21 dias</div>
+      </div>
+    </div>
+
   </div>
 
-  <div class="quiz-question">
-    <h3>2. Como está seu nível de ação atualmente?</h3>
-    <label class="quiz-option"><input type="radio" name="q2" value="quente"> Já tentei sozinho(a) e quero acelerar os resultados</label>
-    <label class="quiz-option"><input type="radio" name="q2" value="frio"> Ainda estou entendendo meu momento</label>
+  <!-- Tiny footer -->
+  <div style="margin-top:12px; text-align:center; font-size:12px; color:var(--muted);">
+    <div>Desenvolvido para conversão · Mobile-first · Design Mente Próspera</div>
   </div>
-
-  <div class="quiz-question">
-    <h3>3. O que você mais deseja agora?</h3>
-    <label class="quiz-option"><input type="radio" name="q3" value="quente"> Transformação rápida e orientação direta</label>
-    <label class="quiz-option"><input type="radio" name="q3" value="frio"> Algo simples para começar aos poucos</label>
-  </div>
-
-  <button type="button" id="submit-btn">VER RESULTADO</button>
-
-</form>
-
 </div>
 
 <script>
-document.getElementById("submit-btn").addEventListener("click", function() {
-  
-  const form = document.getElementById("quiz-form");
+/* ==========================
+   CONFIGURAÇÃO (edite aqui)
+   ==========================
+   CHECKOUT_URL: link final do checkout com desconto
+   FREE_URL: link do material gratuito (placeholder)
+*/
+const CHECKOUT_URL = "https://pay.kiwify.com.br/rGTr9zn?afid=RttijRpp";
+const FREE_URL = "(link gratuito aqui)";
 
-  const q1 = form.q1.value;
-  const q2 = form.q2.value;
-  const q3 = form.q3.value;
+/* Regra de qualificação: >= threshold => lead quente */
+const QUALIFICATION_THRESHOLD = 2;
 
-  if (!q1 || !q2 || !q3) {
-    alert("Por favor, responda todas as perguntas.");
+/* Timer desconto em segundos (ex.: 20 minutos = 1200s) */
+const DISCOUNT_TIMER_SECONDS = 20 * 60; // ajuste se quiser (20min)
+
+/* A/B testing notes (comentário)
+ Variante A: timer visível (padrão)
+ Variante B: sem timer, mas maior desconto (ajustar no checkout)
+ Métricas: completionRate, checkoutCtr, freeDownloadRate
+*/
+
+/* ==========================
+   GLOBALS & helpers
+   ========================== */
+const state = {
+  step: 1,
+  totalSteps: 4,
+  answers: {}, // {1: 'quente'|'frio', ...}
+  startTime: Date.now()
+};
+
+const dataLayer = window.dataLayer = window.dataLayer || []; // analytics shim
+
+function pushEvent(name, payload){
+  dataLayer.push({ event: name, ...payload });
+  // console.log('dl', name, payload);
+}
+
+/* localStorage keys */
+const STORAGE_KEY = 'mp_quiz_progress_v1';
+
+/* Save / load progress to localStorage */
+function saveProgress(){
+  const payload = { step: state.step, answers: state.answers, ts: Date.now() };
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(payload)); } catch(e){}
+}
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return false;
+    const parsed = JSON.parse(raw);
+    if(parsed && typeof parsed === 'object'){
+      state.step = parsed.step || 1;
+      state.answers = parsed.answers || {};
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
+
+function clearProgress(){
+  try{ localStorage.removeItem(STORAGE_KEY); } catch(e){}
+}
+
+/* ==========================
+   UI SELECTORS
+   ========================== */
+const progressBar = document.getElementById('progress-bar');
+const progText = document.getElementById('prog-text');
+const progTime = document.getElementById('prog-time');
+
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+
+const steps = Array.from(document.querySelectorAll('.step'));
+const resultPanel = document.getElementById('result-panel');
+const resultTitle = document.getElementById('result-title');
+const resultCopy = document.getElementById('result-copy');
+const profileBadge = document.getElementById('profile-badge');
+
+const checkoutCta = document.getElementById('checkout-cta');
+const freeCta = document.getElementById('free-cta');
+const gdprWrap = document.getElementById('gdpr-wrap');
+const gdprCheckbox = document.getElementById('gdpr-checkbox');
+const discountTimerEl = document.getElementById('discount-timer');
+
+/* ==========================
+   Initialize
+   ========================== */
+(function init(){
+  // push quiz_start
+  pushEvent('quiz_start', { started_at: new Date().toISOString() });
+
+  // restore if exists
+  const restored = loadProgress();
+  renderStep(state.step);
+  bindOptionClicks();
+  updateNavButtons();
+  if(restored){
+    // reflect selected options visually
+    Object.entries(state.answers).forEach(([k,v])=>{
+      const stepIdx = Number(k);
+      const btn = document.querySelector(`#step-${stepIdx} .opt-btn[data-val="${v}"]`);
+      if(btn) btn.classList.add('selected');
+    });
+  }
+})();
+
+/* ==========================
+   Option click binding
+   ========================== */
+function bindOptionClicks(){
+  document.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', function(){
+      const val = this.getAttribute('data-val');
+      const stepEl = this.closest('.step');
+      const stepNum = Number(stepEl.getAttribute('data-step'));
+      // deselect siblings
+      stepEl.querySelectorAll('.opt-btn').forEach(sib=>{ sib.classList.remove('selected'); sib.setAttribute('aria-pressed', 'false'); });
+      // select current
+      this.classList.add('selected');
+      this.setAttribute('aria-pressed', 'true');
+      // save answer
+      state.answers[stepNum] = val;
+      pushEvent('quiz_answered', { step: stepNum, answer: val, ts: new Date().toISOString() });
+      saveProgress();
+      // auto-advance after small delay for UX
+      setTimeout(()=>{
+        if(state.step < state.totalSteps){
+          state.step++;
+          renderStep(state.step);
+        } else {
+          completeQuiz();
+        }
+      }, 350);
+    });
+  });
+
+  prevBtn.addEventListener('click', function(){
+    if(state.step > 1){
+      state.step--;
+      renderStep(state.step);
+    }
+  });
+
+  nextBtn.addEventListener('click', function(){
+    // if no answer on this step, show subtle feedback
+    if(!state.answers[state.step]){
+      // flash the options
+      const stepEl = document.getElementById(`step-${state.step}`);
+      stepEl.querySelectorAll('.opt-btn').forEach(b=>{
+        b.animate([{transform:'translateY(0)'},{transform:'translateY(-6px)'},{transform:'translateY(0)'}], {duration:300, easing:'ease'});
+      });
+      return;
+    }
+    if(state.step < state.totalSteps){
+      state.step++;
+      renderStep(state.step);
+    } else {
+      completeQuiz();
+    }
+  });
+}
+
+/* ==========================
+   Render step and progress
+   ========================== */
+function renderStep(n){
+  steps.forEach(s=>{
+    const idx = Number(s.getAttribute('data-step'));
+    const active = idx === n;
+    s.classList.toggle('active', active);
+    s.setAttribute('aria-hidden', String(!active));
+  });
+  state.step = n;
+  updateProgress();
+  updateNavButtons();
+  saveProgress();
+  // push step view
+  pushEvent('quiz_step_view', { step: n, ts: new Date().toISOString() });
+}
+
+function updateProgress(){
+  const pct = Math.round(((state.step - 1) / (state.totalSteps)) * 100);
+  progressBar.style.width = pct + '%';
+  progText.textContent = `Pergunta ${state.step} de ${state.totalSteps}`;
+  // microcopy adapt
+  const remaining = state.totalSteps - state.step + 1;
+  progTime.textContent = remaining <= 1 ? 'Quase lá — 30s' : `Quase lá — ${Math.max(1, remaining)} perguntas`;
+}
+
+/* ==========================
+   Update nav buttons
+   ========================== */
+function updateNavButtons(){
+  prevBtn.disabled = (state.step === 1);
+  prevBtn.style.opacity = prevBtn.disabled ? '0.5' : '1';
+  nextBtn.textContent = state.step === state.totalSteps ? 'Ver resultado' : 'Próximo';
+}
+
+/* ==========================
+   Complete Quiz -> decide route
+   ========================== */
+function completeQuiz(){
+  // compute score (count 'quente')
+  const answers = state.answers;
+  let quenteCount = 0;
+  for(let i=1;i<=state.totalSteps;i++){
+    if(answers[i] === 'quente') quenteCount++;
+  }
+
+  pushEvent('quiz_completed', { score: quenteCount, total: state.totalSteps, answers: answers, ts: new Date().toISOString() });
+
+  // Determine profile
+  const isQuente = quenteCount >= QUALIFICATION_THRESHOLD;
+  showResult(isQuente, quenteCount);
+  clearProgress(); // optionally clear so replay requires fresh quiz - comment if you want to keep
+}
+
+/* ==========================
+   Show result UI
+   ========================== */
+let discountInterval = null;
+let discountExpiresAt = null;
+
+function showResult(isQuente, score){
+  // hide steps
+  steps.forEach(s=> s.classList.remove('active'));
+  // update panel
+  resultPanel.classList.add('active');
+  resultPanel.setAttribute('aria-hidden','false');
+
+  if(isQuente){
+    profileBadge.textContent = 'PERFIL: PRONTO';
+    resultTitle.textContent = 'Você está pronto para a transformação';
+    resultCopy.textContent = 'Você demonstrou comprometimento e prontidão. Isso significa que o caminho acelerado é o mais indicado — oferecemos um desconto exclusivo para pessoas que decidem agir agora.';
+    // show checkout as primary, free as secondary
+    checkoutCta.href = CHECKOUT_URL;
+    checkoutCta.setAttribute('data-target','checkout');
+    freeCta.href = FREE_URL;
+    freeCta.setAttribute('data-target','free');
+
+    // show GDPR and require checkbox before redirect to checkout
+    gdprWrap.style.display = 'block';
+    gdprCheckbox.checked = false;
+
+    // start discount timer
+    startDiscountTimer(DISCOUNT_TIMER_SECONDS);
+    // attach click handlers
+    checkoutCta.addEventListener('click', checkoutClickHandler);
+    freeCta.addEventListener('click', freeClickHandler);
+
+  } else {
+    profileBadge.textContent = 'PERFIL: EXPLORADOR';
+    resultTitle.textContent = 'Você está no começo da jornada — excelente ponto de partida.';
+    resultCopy.textContent = 'O material gratuito vai te dar a base e clareza necessárias. Quando estiver pronto, o caminho acelerado continuará disponível para você.';
+    // show free as primary (but visually secondary)
+    checkoutCta.href = CHECKOUT_URL; // still available
+    checkoutCta.setAttribute('data-target','checkout');
+    freeCta.href = FREE_URL;
+    freeCta.setAttribute('data-target','free');
+
+    // hide gdpr (not required for free download), but still show checkbox optional
+    gdprWrap.style.display = 'none';
+
+    // update timer display to show support message
+    discountTimerEl.textContent = '';
+    // attach click handlers
+    checkoutCta.addEventListener('click', checkoutClickHandler);
+    freeCta.addEventListener('click', freeClickHandler);
+  }
+
+  // push UI event
+  pushEvent('quiz_result_shown', { profile: isQuente ? 'quente' : 'frio', score: score, ts: new Date().toISOString() });
+
+  // scroll result into view for small screens
+  setTimeout(()=>{ resultPanel.scrollIntoView({behavior:'smooth'}); }, 150);
+}
+
+/* ==========================
+   Timer functions
+   ========================== */
+function startDiscountTimer(seconds){
+  // clear old
+  if(discountInterval) clearInterval(discountInterval);
+  discountExpiresAt = Date.now() + (seconds * 1000);
+  updateTimerDisplay(); // initial
+  discountInterval = setInterval(() => {
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function updateTimerDisplay(){
+  const now = Date.now();
+  const diff = Math.max(0, Math.floor((discountExpiresAt - now) / 1000));
+  const mm = String(Math.floor(diff / 60)).padStart(2,'0');
+  const ss = String(diff % 60).padStart(2,'0');
+  discountTimerEl.textContent = `${mm}:${ss}`;
+  if(diff <= 0){
+    // expire
+    clearInterval(discountInterval);
+    discountTimerEl.textContent = 'Tempo expirado';
+    // optionally disable checkout or update copy
+    checkoutCta.classList.add('disabled');
+    checkoutCta.style.opacity='0.7';
+  }
+}
+
+/* ==========================
+   Click handlers with analytics + GDPR check
+   ========================== */
+function checkoutClickHandler(e){
+  e.preventDefault();
+  pushEvent('cta_clicked', { cta: 'checkout', profile: null, ts: new Date().toISOString() });
+  // GDPR must be accepted for checkout
+  if(!gdprCheckbox.checked){
+    alert('Antes de prosseguir, por favor confirme que aceita receber comunicações (GDPR).');
     return;
   }
+  // final push and redirect
+  pushEvent('checkout_redirect', { to: CHECKOUT_URL, ts: new Date().toISOString() });
+  // small delay for event flush
+  setTimeout(()=>{ window.location.href = CHECKOUT_URL; }, 200);
+}
 
-  let quenteCount = 0;
+function freeClickHandler(e){
+  e.preventDefault();
+  pushEvent('cta_clicked', { cta: 'free', profile: null, ts: new Date().toISOString() });
+  // redirect to free URL
+  setTimeout(()=>{ window.location.href = FREE_URL; }, 200);
+}
 
-  if (q1 === "quente") quenteCount++;
-  if (q2 === "quente") quenteCount++;
-  if (q3 === "quente") quenteCount++;
-
-  if (quenteCount >= 2) {
-    window.location.href = "https://pay.kiwify.com.br/rGTr9zn?afid=RttijRpp";
-  } else {
-    window.location.href = "(link gratuito aqui)";
-  }
-
+/* ==========================
+   Accessibility: keyboard navigation (left/right)
+   ========================== */
+document.addEventListener('keydown', function(e){
+  if(e.key === 'ArrowLeft') prevBtn.click();
+  if(e.key === 'ArrowRight') nextBtn.click();
 });
-</script>
 
+/* ==========================
+   Small UX: touch feedback (vibration)
+   ========================== */
+document.querySelectorAll('.opt-btn').forEach(b=>{
+  b.addEventListener('touchstart', ()=>{ if(navigator.vibrate) navigator.vibrate(8); });
+});
+
+/* ==========================
+   Optional: clear storage after 24h (to avoid stale)
+   ========================== */
+(function cleanupOld(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    const parsed = JSON.parse(raw);
+    if(parsed && parsed.ts){
+      const age = Date.now() - parsed.ts;
+      if(age > 1000*60*60*24) localStorage.removeItem(STORAGE_KEY);
+    }
+  }catch(e){}
+})();
+</script>
 </body>
 </html>
